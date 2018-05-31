@@ -15,8 +15,13 @@
 
 @implementation DowloadCollectionViewCell
 
+- (void)dealloc {
+    self.observedProgress = nil;
+}
+
 - (void)awakeFromNib {
     [super awakeFromNib];
+    self.observedProgress = nil;
     // Initialization code
 }
 
@@ -45,9 +50,6 @@
         case 3:
         {
             self.lblTitle.text = @"Finished";
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [self getImage];
-            });
         }
             break;
             
@@ -56,22 +58,9 @@
     }
 }
 
-- (void)getImage {
+- (void)setImageWithData:(NSData*)dataImage {
     
-    
-    NSData *dataFile = [NSData dataWithContentsOfFile:_data.path];
-    self.imgView.image = [UIImage imageWithData:dataFile];
-    
-    NSArray *results = [DataCore findFileDownloadByName:_data.fileName inContext:[[CoreDataManager sharedInstance] managedObjectContext]];
-    NSMutableArray *arr = [[NSMutableArray alloc] initWithArray:results];
-    if (arr.count > 0) {
-        DataCore *data = arr.firstObject;
-        UIImage *img = [UIImage imageWithData:data.dataImage];
-        self.imgView.image = img;
-    }
-    
-
-    
+    self.imgView.image = [UIImage imageWithData:dataImage];
 }
 
 
@@ -79,19 +68,21 @@
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
     
-    if (context == @"Test") {
+    if (context == @"Test1") {
+        
+        __weak typeof(&*self) self_weak_ = self;
         dispatch_async(dispatch_get_main_queue(), ^{
             NSProgress *progress = (NSProgress *)object;
-            
-            if (self) {
-                [self updateStatus:2];
-//                self.lblSubTitle.text = [NSString stringWithFormat:@"%0.f%%", progress.fractionCompleted * 100];
-                self.progressView.progress = progress.fractionCompleted;
+            __strong typeof(&*self_weak_) self_strong_ = self_weak_;
+            if (self_strong_) {
+                [self_strong_ updateStatus:2];
+                self_strong_.progressView.progress = progress.fractionCompleted;
                 
                 if (progress.fractionCompleted == 1) {
-                    [self updateStatus:3];
-                    self.observedProgress = nil;
+                    [self_strong_ updateStatus:3];
+                    self_strong_.observedProgress = nil;
                 }
+               
             };
         });
         
@@ -107,14 +98,14 @@
         
         if (_observedProgress) {
             
-            [_observedProgress removeObserver:self forKeyPath:@"fractionCompleted" context:@"Test"];
+            [_observedProgress removeObserver:self forKeyPath:@"fractionCompleted" context:@"Test1"];
         }
         
         _observedProgress = observedProgress;
         
         if (observedProgress) {
             
-            [observedProgress addObserver:self forKeyPath:@"fractionCompleted" options:NSKeyValueObservingOptionNew context:@"Test"];
+            [observedProgress addObserver:self forKeyPath:@"fractionCompleted" options:NSKeyValueObservingOptionNew context:@"Test1"];
             
             self.lblSubTitle.text = [NSString stringWithFormat:@"%0.f%%", observedProgress.fractionCompleted * 100];
             self.progressView.progress = observedProgress.fractionCompleted;

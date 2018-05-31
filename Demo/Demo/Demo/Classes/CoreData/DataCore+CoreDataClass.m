@@ -7,8 +7,10 @@
 //
 //
 
+#import <MagicalRecord/MagicalRecord.h>
 #import "DataCore+CoreDataClass.h"
 #import "CoreDataManager.h"
+
 
 @implementation DataCore
 
@@ -52,6 +54,30 @@
     
     return array;
 }
+
+#pragma mark - FetchedResultsController
+
++ (NSFetchedResultsController<DataCore *> *)fetchAllDownloadImageWithGroupID:(NSInteger)groupID AndDelegate:(id<NSFetchedResultsControllerDelegate>)delegate inContext:(NSManagedObjectContext *)context {
+    
+    NSFetchRequest *fetch = [DataCore fetchRequest];
+    NSSortDescriptor *sort = [NSSortDescriptor sortDescriptorWithKey:@"fileName" ascending:YES selector:nil];
+    fetch.sortDescriptors = @[sort];
+    fetch.predicate = [DataCore predicateForDownloadByGroupID:groupID];
+    
+    NSFetchedResultsController * fetchedController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetch managedObjectContext:context sectionNameKeyPath:nil cacheName:@"imageDownLoad"];
+    fetchedController.delegate = delegate;
+    NSError *err;
+    [fetchedController performFetch:&err];
+    
+    if (err) {
+        NSLog(@"%@",err.localizedDescription);
+    }
+    
+    return fetchedController;
+    
+}
+
+
 
 
 @end

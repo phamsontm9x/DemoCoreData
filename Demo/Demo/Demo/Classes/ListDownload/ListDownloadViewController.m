@@ -18,7 +18,7 @@
 
 
 
-@interface ListDownloadViewController () <UITableViewDelegate, UITableViewDataSource, DownloadTableViewCellDelegate> {
+@interface ListDownloadViewController () <UITableViewDelegate, UITableViewDataSource, DownloadTableViewCellDelegate, NSFetchedResultsControllerDelegate> {
     NSMutableArray *_arrDownload;
     NSMutableArray *_arrObj;
     NSMutableArray *_arrObjQueue;
@@ -46,7 +46,6 @@
     _arrObjQueue = [[NSMutableArray alloc] init];
     _arrObjDownloading = [[NSMutableArray alloc] init];
     _arrObj = [[NSMutableArray alloc] init];
-    
     [self initData];
 }
 

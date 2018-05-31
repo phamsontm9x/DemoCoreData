@@ -25,6 +25,7 @@
 @property (nonatomic, strong) NSString *fileExt;
 @property (atomic, assign) BOOL _executing;
 @property (atomic, assign) BOOL _finished;
+@property (nonatomic, strong) NSURLSession *session;
 
 
 
@@ -43,6 +44,7 @@
         _fileExt = fileExt;
         _progress = [[NSProgress alloc] init];
         _groupId = groupId;
+        _session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration] delegate:self delegateQueue:[NSOperationQueue mainQueue]];
     }
     
     return self;
@@ -77,19 +79,19 @@
     
     NSURL *downloadURL = [NSURL URLWithString:_url];
     
-    NSURLSession *session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration] delegate:self delegateQueue:[NSOperationQueue mainQueue]];
+    
 
     if ([self isCancelled]) {
         return;
     }
     
     if (_url) {
-        @synchronized (session) {
+        @synchronized (_session) {
             if ([self isCancelled]) {
                 return;
             }
             
-            _downloadTask = [session downloadTaskWithURL:downloadURL];
+            _downloadTask = [_session downloadTaskWithURL:downloadURL];
             
             [_downloadTask resume];
         }
@@ -169,7 +171,7 @@
         if (_progress.totalUnitCount <= 0 && totalBytesExpectedToWrite > 0) {
             _progress.totalUnitCount = totalBytesExpectedToWrite;
         }
-        
+
         if (_progress.totalUnitCount > 1) {
             _progress.completedUnitCount = totalBytesWritten;
         }
@@ -184,21 +186,20 @@
     NSData *data = [NSData dataWithContentsOfURL:location];
     NSLog(@"finished: %@", location);
     
+    NSError *error;
+    
+    BOOL success = [[NSFileManager defaultManager] removeItemAtURL:location error:&error];
+    if (!success) {
+        NSLog(@"Error removing file at path: %@", error.localizedDescription);
+    }
+
+    
     // CoreData
     
-    [self saveDataToCoreDataWithData:data FileName:_fileName andGroupId:_groupId];
-    
-    id<FileProcessProtocal> saveFile = [FileProcessController dataHandlerForData:data withURL:_path];
-    NSError *err;
-    if (saveFile) {
-        BOOL isSucces = [saveFile saveImage:err];
-        if (isSucces) {
-            NSLog(@"%@",_path);
-        }
-    }
-    
-    _statusDownload = 3;
     [self completeWithError:nil];
+    [self saveDataToCoreDataWithData:data FileName:_fileName andGroupId:_groupId];
+    _statusDownload = 3;
+    
 }
 
 

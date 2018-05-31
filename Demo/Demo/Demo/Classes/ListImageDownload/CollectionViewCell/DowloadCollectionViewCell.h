@@ -17,13 +17,15 @@
 @property (weak, nonatomic) IBOutlet UIProgressView *progressView;
 @property (weak, nonatomic) IBOutlet UILabel *lblTitle;
 @property (weak, nonatomic) IBOutlet UILabel *lblSubTitle;
-@property(nonatomic, strong) IBOutlet UIImageView *imgView;
+@property(nonatomic, weak) IBOutlet UIImageView *imgView;
 
-@property(nonatomic, strong) DataDto *data;
 @property(nonatomic, strong) NSProgress *observedProgress;
+@property(nonatomic, strong) DataDto *data;
+
 
 - (void)initUIWithData:(DataDto*)data;
 - (void)updateStatus:(NSInteger)status;
+- (void)setImageWithData:(NSData*)dataImage;
 
 
 @end

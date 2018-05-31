@@ -24,6 +24,8 @@ NS_ASSUME_NONNULL_BEGIN
 + (nullable NSArray *)findDownloadByGroupID:(long)gid inContext:(NSManagedObjectContext *)context;
 + (nullable NSArray *)findFileDownloadByName:(NSString *)name inContext:(NSManagedObjectContext *)context;
 
++ (NSFetchedResultsController<DataCore *> *)fetchAllDownloadImageWithGroupID:(NSInteger)groupID AndDelegate:(id<NSFetchedResultsControllerDelegate>)delegate inContext:(NSManagedObjectContext *)context;
+
 @end
 
 
