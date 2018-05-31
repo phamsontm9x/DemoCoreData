@@ -72,17 +72,14 @@
     [_tbvContent reloadData];
 }
 
-
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
 
-
 - (IBAction)pauseSelected:(id)sender {
     [[Download_Manager sharedDownManager] pause];
 }
-
 
 - (IBAction)startSelected:(id)sender {
     if (isStart) {
@@ -92,7 +89,6 @@
     }
     isStart = NO;
 }
-
 
 - (void)preDownLoad {
     
@@ -118,7 +114,6 @@
     [_tbvContent reloadData];
 
 }
-
 
 
 #pragma mark - UITableviewDataSource
@@ -153,7 +148,9 @@
     [self.navigationController pushViewController:vc animated:YES];
 }
 
+
 #pragma mark - TableViewCellDelegate
+
 - (void)updateStatus:(ObjectDto *)obj {
     for (ObjectDto *dto in _arrObj) {
         if (dto.groupId == obj.groupId ) {
@@ -173,7 +170,6 @@
                 }
                 dto.statusDownload = 2;
             }
-//            [[Download_Manager sharedDownManager] startDownloadTask];
         }
     }
     [_tbvContent reloadData];

@@ -48,6 +48,7 @@
     return self;
 }
 
+
 #pragma mark - NSOperation
 
 - (void) start {
@@ -199,6 +200,7 @@
     _statusDownload = 3;
     [self completeWithError:nil];
 }
+
 
 #pragma mark - CoreData
 

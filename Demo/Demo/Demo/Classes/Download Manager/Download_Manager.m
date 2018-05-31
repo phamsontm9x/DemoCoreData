@@ -27,6 +27,7 @@
 
 @implementation Download_Manager
 
+
 #pragma mark - Singleton
 
 + (Download_Manager *)sharedDownManager {
@@ -40,6 +41,7 @@
     
     return sharedDownloadingManager;
 }
+
 
 #pragma mark - Queue init
 
@@ -56,7 +58,6 @@
     return self;
 }
 
-
 - (void)pause {
     _isPause = YES;
     [self.operationQueue setSuspended:_isPause];
@@ -67,14 +68,11 @@
     [self.operationQueue setSuspended:_isPause];
 }
 
-
 - (void)addEventDownload:(DataDto *)data {
     _dataTask = data;
     [self.listDownload setObject:_dataTask forKey:_dataTask.cid];
     [self addQueue:data];
 }
-
-
 
 - (void)addQueue:(DataDto*)data{
     
@@ -91,7 +89,6 @@
     });
     
 }
-
 
 - (nullable NSProgress *)downloadProgressForhID:(NSNumber *)cid {
     return [self.listDownload objectForKey:cid].downloadSession.progress;

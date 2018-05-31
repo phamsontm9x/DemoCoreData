@@ -9,7 +9,10 @@
 #import <UIKit/UIKit.h>
 #import "DataDto.h"
 
+
+
 @interface DowloadCollectionViewCell : UICollectionViewCell
+
 
 @property (weak, nonatomic) IBOutlet UIProgressView *progressView;
 @property (weak, nonatomic) IBOutlet UILabel *lblTitle;

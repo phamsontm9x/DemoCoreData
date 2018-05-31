@@ -11,6 +11,8 @@
 #import "CoreDataManager.h"
 #import "DataCore+CoreDataClass.h"
 
+
+
 @implementation DowloadCollectionViewCell
 
 - (void)awakeFromNib {
@@ -71,6 +73,7 @@
 
     
 }
+
 
 #pragma mark - Observe
 

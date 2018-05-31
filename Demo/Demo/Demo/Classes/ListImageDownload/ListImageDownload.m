@@ -10,9 +10,13 @@
 #import "DowloadCollectionViewCell.h"
 #import "DataDto.h"
 
+
+
 @interface ListImageDownload ()
 
 @end
+
+
 
 @implementation ListImageDownload
 
@@ -38,7 +42,6 @@ static NSString * const reuseIdentifier = @"Cell";
 
 #pragma mark <UICollectionViewDataSource>
 
-
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
     return 1;
 }
@@ -58,7 +61,9 @@ static NSString * const reuseIdentifier = @"Cell";
     return cell;
 }
 
+
 #pragma mark <UICollectionViewDelegate>
+
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     
 }

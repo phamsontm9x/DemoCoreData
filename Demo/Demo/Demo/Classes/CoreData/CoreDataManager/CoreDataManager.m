@@ -38,11 +38,9 @@
     return sharedInstance;
 }
 
-
 - (NSURL *)applicationDocumentsDirectory {
     return [[[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask] lastObject];
 }
-
 
 - (NSManagedObjectModel*)objectModel {
 
@@ -55,7 +53,6 @@
     return _managedObjectModel;
     
 }
-
 
 - (NSPersistentStoreCoordinator *)persistentStoreCoordinator {
     
