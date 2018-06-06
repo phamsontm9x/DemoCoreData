@@ -1,9 +1,8 @@
 //
 //  DataCore+CoreDataClass.h
-//  Demo
+//  
 //
-//  Created by ThanhSon on 5/30/18.
-//  Copyright © 2018 ThanhSon. All rights reserved.
+//  Created by ThanhSon on 6/5/18.
 //
 //
 
@@ -12,22 +11,28 @@
 
 
 
-NS_ASSUME_NONNULL_BEGIN
+@class GroupDataCore;
 
+
+
+NS_ASSUME_NONNULL_BEGIN
 
 
 @interface DataCore : NSManagedObject
 
++ (DataCore *)findDataCoreWithName:(NSString *)name inContext:(NSManagedObjectContext *)context;
 + (NSPredicate *)predicateForDownloadByGroupID:(long)gid;
 + (NSPredicate *)predicateForDownloadByName:(NSString *)name;
 
 + (nullable NSArray *)findDownloadByGroupID:(long)gid inContext:(NSManagedObjectContext *)context;
 + (nullable NSArray *)findFileDownloadByName:(NSString *)name inContext:(NSManagedObjectContext *)context;
 
++ (BOOL)isHasDataCoreWithName:(NSString *)name inContext:(NSManagedObjectContext *)context;
+
 + (NSFetchedResultsController<DataCore *> *)fetchAllDownloadImageWithGroupID:(NSInteger)groupID AndDelegate:(id<NSFetchedResultsControllerDelegate>)delegate inContext:(NSManagedObjectContext *)context;
 
-@end
 
+@end
 
 
 NS_ASSUME_NONNULL_END

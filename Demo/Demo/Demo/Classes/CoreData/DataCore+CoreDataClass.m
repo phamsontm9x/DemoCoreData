@@ -1,18 +1,20 @@
 //
 //  DataCore+CoreDataClass.m
-//  Demo
+//  
 //
-//  Created by ThanhSon on 5/30/18.
-//  Copyright © 2018 ThanhSon. All rights reserved.
+//  Created by ThanhSon on 6/5/18.
 //
 //
 
-#import <MagicalRecord/MagicalRecord.h>
 #import "DataCore+CoreDataClass.h"
-#import "CoreDataManager.h"
+@import MagicalRecord;
 
 
 @implementation DataCore
+
++ (DataCore *)findDataCoreWithName:(NSString *)name inContext:(NSManagedObjectContext *)context {
+    return [DataCore MR_findFirstByAttribute:@"fileName" withValue:name inContext:context];
+}
 
 
 + (NSPredicate *)predicateForDownloadByGroupID:(long)gid {
@@ -25,47 +27,32 @@
 
 + (nullable NSArray *)findDownloadByGroupID:(long)gid inContext:(NSManagedObjectContext *)context {
     
-    NSFetchRequest *request = [DataCore fetchRequest];
     NSPredicate *predicate = [self predicateForDownloadByGroupID:gid];
-    request.predicate = predicate;
-    
-    NSError *error;
-    NSArray *array = [context executeFetchRequest:request error:&error];
-    
-    if (error) {
-        NSLog(@"%@",error.localizedDescription);
-    }
-    
-    return array;
+    return [DataCore MR_findAllWithPredicate:predicate inContext:context];
 }
 
 + (nullable NSArray *)findFileDownloadByName:(NSString *)name inContext:(NSManagedObjectContext *)context {
     
-    NSFetchRequest *request = [DataCore fetchRequest];;
     NSPredicate *predicate = [self predicateForDownloadByName:name];
-    request.predicate = predicate;
-    
-    NSError *error;
-    NSArray *array = [context executeFetchRequest:request error:&error];
-    
-    if (error) {
-        NSLog(@"%@",error.localizedDescription);
-    }
-    
-    return array;
+    return [DataCore MR_findAllWithPredicate:predicate inContext:context];
 }
+
++ (BOOL)isHasDataCoreWithName:(NSString *)name inContext:(NSManagedObjectContext *)context {
+    DataCore *data = [DataCore findDataCoreWithName:name inContext:context];
+    if (data) {
+        return YES;
+    }
+    return NO;
+}
+
 
 #pragma mark - FetchedResultsController
 
 + (NSFetchedResultsController<DataCore *> *)fetchAllDownloadImageWithGroupID:(NSInteger)groupID AndDelegate:(id<NSFetchedResultsControllerDelegate>)delegate inContext:(NSManagedObjectContext *)context {
     
-    NSFetchRequest *fetch = [DataCore fetchRequest];
-    NSSortDescriptor *sort = [NSSortDescriptor sortDescriptorWithKey:@"fileName" ascending:YES selector:nil];
-    fetch.sortDescriptors = @[sort];
-    fetch.predicate = [DataCore predicateForDownloadByGroupID:groupID];
-    
-    NSFetchedResultsController * fetchedController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetch managedObjectContext:context sectionNameKeyPath:nil cacheName:@"imageDownLoad"];
+    NSFetchedResultsController *fetchedController = [DataCore MR_fetchAllGroupedBy:nil withPredicate:[DataCore predicateForDownloadByGroupID:groupID] sortedBy:@"fileName" ascending:YES];
     fetchedController.delegate = delegate;
+    
     NSError *err;
     [fetchedController performFetch:&err];
     
@@ -76,8 +63,5 @@
     return fetchedController;
     
 }
-
-
-
 
 @end

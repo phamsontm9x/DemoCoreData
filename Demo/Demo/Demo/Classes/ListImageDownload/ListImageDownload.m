@@ -11,6 +11,7 @@
 #import "DataDto.h"
 #import "DataCore+CoreDataClass.h"
 #import "CoreDataManager.h"
+@import MagicalRecord;
 
 
 
@@ -29,10 +30,7 @@ static NSString * const reuseIdentifier = @"Cell";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    if (_objData) {
-        [self.collectionView reloadData];
-    }
-    [self testData];
+    [self loadData];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -48,8 +46,8 @@ static NSString * const reuseIdentifier = @"Cell";
 
 #pragma mark - NSFetchedResultsController
 
-- (void)testData {
-    self.fetchResultsController = [DataCore fetchAllDownloadImageWithGroupID:_objData.groupId AndDelegate:self inContext:[[CoreDataManager sharedInstance] managedObjectContext]];
+- (void)loadData {
+    self.fetchResultsController = [DataCore fetchAllDownloadImageWithGroupID:_objData.groupId AndDelegate:self inContext:[NSManagedObjectContext MR_defaultContext]];
     
     if ([self.fetchResultsController.fetchedObjects count] > 0) {
         NSArray *arr = self.fetchResultsController.fetchedObjects;
@@ -57,6 +55,7 @@ static NSString * const reuseIdentifier = @"Cell";
     } else {
         _arrData = [[NSMutableArray alloc] init];
     }
+    [self.collectionView reloadData];
 }
 
 - (void)controllerDidChangeContent:(NSFetchedResultsController *)controller {
@@ -74,21 +73,19 @@ static NSString * const reuseIdentifier = @"Cell";
 
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-    return _objData.listData.count;
+    return _arrData.count;
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     
     DowloadCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"DowloadCollectionViewCell" forIndexPath:indexPath];
-    DataDto *data = _objData.listData[indexPath.row];
-    [cell updateStatus:data.downloadSession.statusDownload];
-    [cell initUIWithData:data];
-    
-    if (_arrData.count > 0 && _arrData.count -1 >= indexPath.row) {
-        DataCore *dataCore = (DataCore*)_arrData[indexPath.row];
-        if (dataCore && [dataCore dataImage]) {
-            [cell setImageWithData:[dataCore dataImage] ];
-        }
+   
+    DataCore *dataCore = _arrData[indexPath.row];
+    [cell updateStatus:dataCore.status];
+    [cell setImageWithData:[dataCore dataImage]];
+
+    if (_objData.listData.count > indexPath.row) {
+        [cell initUIWithData:_objData.listData[indexPath.row]];
     }
 
     return cell;
@@ -100,5 +97,6 @@ static NSString * const reuseIdentifier = @"Cell";
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     
 }
+
 
 @end

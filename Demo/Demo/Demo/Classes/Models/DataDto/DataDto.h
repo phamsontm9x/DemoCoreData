@@ -27,9 +27,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, strong) Download *downloadSession;
 
-@property (nullable, nonatomic, copy) NSNumber *cid;
+@property (nonatomic, assign) NSInteger cid;
 
-- (instancetype)initDataDtoWith:(NSString *_Nullable)url FileName:(NSString *_Nullable)fileName cid:(NSNumber *_Nullable)cid andGroupId:(NSInteger)groupId;
+- (instancetype)initDataDtoWith:(NSString *)url FileName:(NSString *)fileName cid:(NSInteger)cid GroupId:(NSInteger)groupId andStatus:(NSInteger)status;
 
 
 @end

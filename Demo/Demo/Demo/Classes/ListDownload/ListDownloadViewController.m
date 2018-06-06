@@ -15,22 +15,33 @@
 #import "AppDelegate.h"
 #import "DataCore+CoreDataClass.h"
 #import "CoreDataManager.h"
+#import "GroupDataCore+CoreDataClass.h"
+#import "DataCore+CoreDataClass.h"
+
+@import MagicalRecord;
+
+
+typedef NS_ENUM(NSInteger, StatusDownload) {
+    StatusDefault = 0,
+    StatusDownloadQueue,
+    StatusDownLoading,
+    StatusDownloadfinish,
+};
 
 
 
-@interface ListDownloadViewController () <UITableViewDelegate, UITableViewDataSource, DownloadTableViewCellDelegate, NSFetchedResultsControllerDelegate> {
-    NSMutableArray *_arrDownload;
-    NSMutableArray *_arrObj;
-    NSMutableArray *_arrObjQueue;
-    NSMutableArray *_arrObjDownloading;
-    NSInteger maxCurentDownLoad;
-    ObjectDto *objDto;
-    BOOL isStart;
-}
+@interface ListDownloadViewController () <UITableViewDelegate, UITableViewDataSource, DownloadTableViewCellDelegate, NSFetchedResultsControllerDelegate>
 
 @property (weak, nonatomic) IBOutlet UIProgressView *progressTotal;
 @property (nonatomic, strong) IBOutlet UITableView* tbvContent;
+@property (nonatomic, strong) NSFetchedResultsController* fetchResultsController;
 
+@property (nonatomic, strong) NSMutableArray *arrDownload;
+@property (nonatomic, strong) NSMutableArray *arrObj;
+@property (nonatomic, strong) NSMutableArray *arrObjQueue;
+@property (nonatomic, strong) NSMutableArray *arrObjDownloading;
+@property (nonatomic, assign) NSInteger maxCurentDownLoad;
+@property (nonatomic, assign) BOOL isStart;
 
 @end
 
@@ -40,26 +51,43 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    isStart = YES;
-    maxCurentDownLoad = 1;
+    [self initData];
+    [self loadData];
+}
+
+- (void)initData {
+    _isStart = YES;
+    _maxCurentDownLoad = 1;
     _arrDownload = [[NSMutableArray alloc] init];
     _arrObjQueue = [[NSMutableArray alloc] init];
     _arrObjDownloading = [[NSMutableArray alloc] init];
     _arrObj = [[NSMutableArray alloc] init];
-    [self initData];
 }
 
-- (void)initData {
+- (void)loadData {
     
-    for (int i = 0; i < 3 ; i++) {
-        
+    _fetchResultsController = [GroupDataCore fetchAllGroupAndDelegate:self inContext:[NSManagedObjectContext MR_defaultContext]];
+    
+    if (_fetchResultsController.fetchedObjects.count > 0) {
+        [self loadDataFromCoreData];
+    } else {
+        [self createDataObjectCoreData];
+        [self loadDataFromCoreData];
+    }
+    
+    [_tbvContent reloadData];
+}
+
+- (void)loadDataFromCoreData {
+    for (int i = 0 ; i < _fetchResultsController.fetchedObjects.count ; i++) {
         _arrDownload = [[NSMutableArray alloc] init];
-        ObjectDto *obj = [[ObjectDto alloc] initObjectDtoWithName:@"group" groupId:i];
-        for (int j =0 ; j < 10 ; j++) {
-            NSString * url = (j < 11) ?@"http://1.bp.blogspot.com/-mRJKdjhDCpM/VyibnmXS_2I/AAAAAAAOGrI/8ykMQB8f1W0/s0/bt3551-hiep-khach-giang-ho-truyentranhtuan-com-chap-500-trang-000.png" : @"http://ipv4.download.thinkbroadband.com/200MB.zip";
-            
-            DataDto *data = [[DataDto alloc] initDataDtoWith:url FileName:[NSString stringWithFormat:@"test%d",i*1000+j] cid:[NSNumber numberWithInt:i*100+j] andGroupId:i];
-            
+        GroupDataCore *group = [GroupDataCore findGroupWithID:i inContext:[NSManagedObjectContext MR_defaultContext]];
+        ObjectDto *obj = [[ObjectDto alloc] initObjectDtoWithName:group.name groupId:group.gid andStatus:group.status];
+        
+        for (int j =0 ; j < group.downloadDataCore.count; j++) {
+            NSString * url = @"http://1.bp.blogspot.com/-mRJKdjhDCpM/VyibnmXS_2I/AAAAAAAOGrI/8ykMQB8f1W0/s0/bt3551-hiep-khach-giang-ho-truyentranhtuan-com-chap-500-trang-000.png";
+            DataCore *dataCore = group.downloadDataCore[j];
+            DataDto *data = [[DataDto alloc] initDataDtoWith:url FileName:dataCore.fileName cid:dataCore.cid GroupId:dataCore.groupId andStatus:dataCore.status];
             [_arrDownload addObject:data];
         }
         
@@ -67,8 +95,38 @@
         [obj configProgress];
         [_arrObj addObject:obj];
     }
+}
+
+- (void)createDataObjectCoreData {
     
-    [_tbvContent reloadData];
+    for (int i = 0 ; i< 3 ; i ++) {
+
+        // Create GroupData
+        GroupDataCore *group = [GroupDataCore findGroupWithID:i inContext:[NSManagedObjectContext MR_defaultContext]];
+        if (!group) {
+            group = [GroupDataCore MR_createEntity];
+            group.status  = StatusDefault;
+            group.name = [NSString stringWithFormat:@"group%d",i];
+            group.gid = i;
+        }
+        
+        for (int j = 0; j < 10; j++) {
+            
+            //Create DataCore
+            NSString *strFileName = [NSString stringWithFormat:@"test%d",i*1000+j];
+            if (![DataCore isHasDataCoreWithName:strFileName inContext:[NSManagedObjectContext MR_defaultContext]]) {
+                DataCore * dataCore = [DataCore MR_createEntity];
+                dataCore.cid = j;
+                dataCore.fileName = strFileName;
+                dataCore.status = StatusDefault;
+                dataCore.groupId = i;
+                [group addDownloadDataCoreObject:dataCore];
+                //[group insertObject:dataCore inDownloadDataCoreAtIndex:j];
+            }
+        }
+    }
+    
+    [[NSManagedObjectContext MR_defaultContext] MR_saveToPersistentStoreAndWait];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -81,33 +139,40 @@
 }
 
 - (IBAction)startSelected:(id)sender {
-    if (isStart) {
+    if (_isStart) {
         [self preDownLoad];
     } else {
         [[Download_Manager sharedDownManager] resume];
     }
-    isStart = NO;
+    _isStart = NO;
 }
 
 - (void)preDownLoad {
     
-    for (int i = 0 ; i < maxCurentDownLoad ; i ++ ) {
-        ObjectDto *dto = _arrObj[i];
-        dto.statusDownload = 2;
-        [_arrObjDownloading addObject:dto];
+    for (int i = 0 ; i < _maxCurentDownLoad ; i ++ ) {
+        for (int j = 0 ; j < _arrObj.count ; j++ ) {
+            ObjectDto *dto = _arrObj[j];
+            if (dto.statusDownload != StatusDownloadfinish) {
+                dto.statusDownload = StatusDownLoading;
+                [_arrObjDownloading addObject:dto];
+                break;
+            }
+        }
     }
     
-    for (int i = (int)maxCurentDownLoad ; i < _arrObj.count ; i++) {
+    
+    for (int i = 0 ; i < _arrObj.count ; i++) {
         ObjectDto *dto = _arrObj[i];
-        dto.statusDownload = 1;
-        [_arrObjQueue addObject:dto];
+        if (dto.statusDownload == StatusDefault) {
+            dto.statusDownload = StatusDownloadQueue;
+            [_arrObjQueue addObject:dto];
+        }
     }
     
     for (ObjectDto *dto in _arrObjDownloading) {
         for (DataDto *data in dto.listData) {
             [[Download_Manager sharedDownManager] addEventDownload:data];
         }
-        dto.statusDownload = 2;
     }
     
     [_tbvContent reloadData];
@@ -132,9 +197,9 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     DownloadTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"DownloadTableViewCell"];
     ObjectDto *data = _arrObj[indexPath.row];
-    [cell initUIWithData:data];
     [cell updateStatus:data.statusDownload];
-    cell.lblName.text = [NSString stringWithFormat:@"Group %ld",indexPath.row];
+    cell.lblName.text = data.groupName;
+    [cell initUIWithData:data];
     cell.delegate = self;
     
     return cell;
@@ -143,7 +208,10 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
     ListImageDownload *vc = [storyboard instantiateViewControllerWithIdentifier:@"ListImageDownload"];
-    vc.objData = _arrObj[indexPath.row];
+    if (_arrObj.count > 0 ) {
+        vc.objData = _arrObj[indexPath.row];
+    }
+
     [self.navigationController pushViewController:vc animated:YES];
 }
 
@@ -154,9 +222,10 @@
     for (ObjectDto *dto in _arrObj) {
         if (dto.groupId == obj.groupId ) {
             dto.statusDownload = obj.statusDownload;
+            [self updateObject:dto withStatus:dto.statusDownload];
         }
     }
-    if (obj.statusDownload == 3) {
+    if (obj.statusDownload == StatusDownloadfinish) {
         [_arrObjDownloading removeObject:obj];
         if (_arrObjQueue.count > 0) {
             [_arrObjDownloading addObject:_arrObjQueue.firstObject];
@@ -167,12 +236,35 @@
                 for (DataDto *data in dto.listData) {
                     [[Download_Manager sharedDownManager] addEventDownload:data];
                 }
-                dto.statusDownload = 2;
+                dto.statusDownload = StatusDownLoading;
+                [self updateObject:dto withStatus:dto.statusDownload];
             }
         }
     }
     [_tbvContent reloadData];
 }
+
+- (void)updateObject:(ObjectDto *)obj withStatus:(NSInteger)status {
+    GroupDataCore *groupData = [GroupDataCore findGroupWithID:obj.groupId inContext:[NSManagedObjectContext MR_defaultContext]];
+    
+    if (groupData) {
+        [MagicalRecord saveWithBlock:^(NSManagedObjectContext *context) {
+            
+             groupData.status = status;
+            
+        } completion:^(BOOL contextDidSave, NSError *error) {
+            [[NSManagedObjectContext MR_defaultContext] MR_saveToPersistentStoreAndWait];
+        }];
+    }
+}
+
+
+#pragma mark - NSFetchedResultsControllerDelegate
+
+- (void)controllerDidChangeContent:(NSFetchedResultsController *)controller {
+    //[[NSManagedObjectContext MR_defaultContext] MR_saveToPersistentStoreAndWait];
+}
+
 
 @end
     

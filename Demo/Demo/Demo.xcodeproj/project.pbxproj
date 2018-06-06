@@ -25,11 +25,13 @@
 		CA17A67020B32CBB00732A68 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = CA17A66F20B32CBB00732A68 /* main.m */; };
 		CA17A67A20B32CBB00732A68 /* DemoUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = CA17A67920B32CBB00732A68 /* DemoUITests.m */; };
 		CA27ED3C20BEEE6600F8B04A /* CoreDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = CA27ED3B20BEEE6600F8B04A /* CoreDataManager.m */; };
-		CA27ED4120BEF83D00F8B04A /* DataCore+CoreDataClass.m in Sources */ = {isa = PBXBuildFile; fileRef = CA27ED3E20BEF83D00F8B04A /* DataCore+CoreDataClass.m */; };
-		CA27ED4220BEF83D00F8B04A /* DataCore+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = CA27ED4020BEF83D00F8B04A /* DataCore+CoreDataProperties.m */; };
 		CA27ED4620BEFA1300F8B04A /* BaseDto.m in Sources */ = {isa = PBXBuildFile; fileRef = CA27ED4520BEFA1300F8B04A /* BaseDto.m */; };
 		CA2C229520B78B5A00B68B54 /* DowloadCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CA2C229420B78B5A00B68B54 /* DowloadCollectionViewCell.m */; };
 		CA2C229920B78B8800B68B54 /* ListImageDownload.m in Sources */ = {isa = PBXBuildFile; fileRef = CA2C229820B78B8800B68B54 /* ListImageDownload.m */; };
+		CA41BA0220C68C5B006F16FD /* GroupDataCore+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = CA41B9FB20C68C5A006F16FD /* GroupDataCore+CoreDataProperties.m */; };
+		CA41BA0320C68C5B006F16FD /* GroupDataCore+CoreDataClass.m in Sources */ = {isa = PBXBuildFile; fileRef = CA41B9FC20C68C5A006F16FD /* GroupDataCore+CoreDataClass.m */; };
+		CA41BA0420C68C5B006F16FD /* DataCore+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = CA41B9FD20C68C5A006F16FD /* DataCore+CoreDataProperties.m */; };
+		CA41BA0520C68C5B006F16FD /* DataCore+CoreDataClass.m in Sources */ = {isa = PBXBuildFile; fileRef = CA41BA0120C68C5A006F16FD /* DataCore+CoreDataClass.m */; };
 		F54869B2366F7A5AF76D8153 /* Pods_Demo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1CA22C5B6F463BABFBC13683 /* Pods_Demo.framework */; };
 /* End PBXBuildFile section */
 
@@ -66,6 +68,7 @@
 		1358F13D20B7C494004390DB /* FilePdf.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FilePdf.m; sourceTree = "<group>"; };
 		135ED51120BBFBB300CEA3C4 /* DataFile.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = DataFile.xcdatamodel; sourceTree = "<group>"; };
 		135ED51820BC010100CEA3C4 /* Demo-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Demo-Bridging-Header.h"; sourceTree = "<group>"; };
+		138CB7C220C7837F00F7FF7F /* DataFile 2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "DataFile 2.xcdatamodel"; sourceTree = "<group>"; };
 		1CA22C5B6F463BABFBC13683 /* Pods_Demo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Demo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		49A76C62AD5B35C07DDECA72 /* Pods-DemoUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DemoUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-DemoUITests/Pods-DemoUITests.release.xcconfig"; sourceTree = "<group>"; };
 		6A43DB834E579351678B616E /* Pods-Demo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Demo.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Demo/Pods-Demo.debug.xcconfig"; sourceTree = "<group>"; };
@@ -84,16 +87,20 @@
 		CA17A67B20B32CBB00732A68 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		CA27ED3A20BEEE6600F8B04A /* CoreDataManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CoreDataManager.h; sourceTree = "<group>"; };
 		CA27ED3B20BEEE6600F8B04A /* CoreDataManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CoreDataManager.m; sourceTree = "<group>"; };
-		CA27ED3D20BEF83D00F8B04A /* DataCore+CoreDataClass.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "DataCore+CoreDataClass.h"; sourceTree = "<group>"; };
-		CA27ED3E20BEF83D00F8B04A /* DataCore+CoreDataClass.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "DataCore+CoreDataClass.m"; sourceTree = "<group>"; };
-		CA27ED3F20BEF83D00F8B04A /* DataCore+CoreDataProperties.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "DataCore+CoreDataProperties.h"; sourceTree = "<group>"; };
-		CA27ED4020BEF83D00F8B04A /* DataCore+CoreDataProperties.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "DataCore+CoreDataProperties.m"; sourceTree = "<group>"; };
 		CA27ED4420BEFA1300F8B04A /* BaseDto.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BaseDto.h; sourceTree = "<group>"; };
 		CA27ED4520BEFA1300F8B04A /* BaseDto.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BaseDto.m; sourceTree = "<group>"; };
 		CA2C229320B78B5A00B68B54 /* DowloadCollectionViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DowloadCollectionViewCell.h; sourceTree = "<group>"; };
 		CA2C229420B78B5A00B68B54 /* DowloadCollectionViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DowloadCollectionViewCell.m; sourceTree = "<group>"; };
 		CA2C229720B78B8800B68B54 /* ListImageDownload.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ListImageDownload.h; sourceTree = "<group>"; };
 		CA2C229820B78B8800B68B54 /* ListImageDownload.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ListImageDownload.m; sourceTree = "<group>"; };
+		CA41B9FA20C68C5A006F16FD /* DataCore+CoreDataProperties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "DataCore+CoreDataProperties.h"; sourceTree = "<group>"; };
+		CA41B9FB20C68C5A006F16FD /* GroupDataCore+CoreDataProperties.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "GroupDataCore+CoreDataProperties.m"; sourceTree = "<group>"; };
+		CA41B9FC20C68C5A006F16FD /* GroupDataCore+CoreDataClass.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "GroupDataCore+CoreDataClass.m"; sourceTree = "<group>"; };
+		CA41B9FD20C68C5A006F16FD /* DataCore+CoreDataProperties.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "DataCore+CoreDataProperties.m"; sourceTree = "<group>"; };
+		CA41B9FE20C68C5A006F16FD /* GroupDataCore+CoreDataClass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "GroupDataCore+CoreDataClass.h"; sourceTree = "<group>"; };
+		CA41B9FF20C68C5A006F16FD /* DataCore+CoreDataClass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "DataCore+CoreDataClass.h"; sourceTree = "<group>"; };
+		CA41BA0020C68C5A006F16FD /* GroupDataCore+CoreDataProperties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "GroupDataCore+CoreDataProperties.h"; sourceTree = "<group>"; };
+		CA41BA0120C68C5A006F16FD /* DataCore+CoreDataClass.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "DataCore+CoreDataClass.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -206,10 +213,15 @@
 			isa = PBXGroup;
 			children = (
 				CA27ED3920BEEE4E00F8B04A /* CoreDataManager */,
-				CA27ED3D20BEF83D00F8B04A /* DataCore+CoreDataClass.h */,
-				CA27ED3E20BEF83D00F8B04A /* DataCore+CoreDataClass.m */,
-				CA27ED3F20BEF83D00F8B04A /* DataCore+CoreDataProperties.h */,
-				CA27ED4020BEF83D00F8B04A /* DataCore+CoreDataProperties.m */,
+				CA41B9FE20C68C5A006F16FD /* GroupDataCore+CoreDataClass.h */,
+				CA41B9FC20C68C5A006F16FD /* GroupDataCore+CoreDataClass.m */,
+				CA41BA0020C68C5A006F16FD /* GroupDataCore+CoreDataProperties.h */,
+				CA41B9FB20C68C5A006F16FD /* GroupDataCore+CoreDataProperties.m */,
+				CA41B9FF20C68C5A006F16FD /* DataCore+CoreDataClass.h */,
+				CA41BA0120C68C5A006F16FD /* DataCore+CoreDataClass.m */,
+				CA41B9FA20C68C5A006F16FD /* DataCore+CoreDataProperties.h */,
+				CA41B9FD20C68C5A006F16FD /* DataCore+CoreDataProperties.m */,
+				135ED51020BBFBB300CEA3C4 /* DataFile.xcdatamodeld */,
 			);
 			path = CoreData;
 			sourceTree = "<group>";
@@ -290,7 +302,6 @@
 		CA27ED3520BEE95400F8B04A /* CoreData */ = {
 			isa = PBXGroup;
 			children = (
-				135ED51020BBFBB300CEA3C4 /* DataFile.xcdatamodeld */,
 			);
 			path = CoreData;
 			sourceTree = "<group>";
@@ -538,19 +549,21 @@
 				134F74DF20B67B5700EFFFB2 /* Download.m in Sources */,
 				134F74D620B66CC100EFFFB2 /* ListDownloadViewController.m in Sources */,
 				134F74D320B666D900EFFFB2 /* Download_Manager.m in Sources */,
+				CA41BA0220C68C5B006F16FD /* GroupDataCore+CoreDataProperties.m in Sources */,
 				CA2C229920B78B8800B68B54 /* ListImageDownload.m in Sources */,
 				134F74DA20B66D1500EFFFB2 /* ObjectDto.m in Sources */,
 				135ED51220BBFBB300CEA3C4 /* DataFile.xcdatamodeld in Sources */,
 				1358F13B20B7C3B5004390DB /* FileProcessController.m in Sources */,
+				CA41BA0320C68C5B006F16FD /* GroupDataCore+CoreDataClass.m in Sources */,
 				CA17A67020B32CBB00732A68 /* main.m in Sources */,
 				134F74E320B6B40D00EFFFB2 /* DownloadTableViewCell.m in Sources */,
 				CA2C229520B78B5A00B68B54 /* DowloadCollectionViewCell.m in Sources */,
-				CA27ED4120BEF83D00F8B04A /* DataCore+CoreDataClass.m in Sources */,
 				1358F13820B7C2B0004390DB /* FileImage.m in Sources */,
 				CA17A66220B32CBB00732A68 /* AppDelegate.m in Sources */,
+				CA41BA0520C68C5B006F16FD /* DataCore+CoreDataClass.m in Sources */,
 				1358F13E20B7C494004390DB /* FilePdf.m in Sources */,
+				CA41BA0420C68C5B006F16FD /* DataCore+CoreDataProperties.m in Sources */,
 				134F74CF20B6667900EFFFB2 /* DataDto.m in Sources */,
-				CA27ED4220BEF83D00F8B04A /* DataCore+CoreDataProperties.m in Sources */,
 				CA27ED4620BEFA1300F8B04A /* BaseDto.m in Sources */,
 				CA27ED3C20BEEE6600F8B04A /* CoreDataManager.m in Sources */,
 			);
@@ -801,6 +814,7 @@
 		135ED51020BBFBB300CEA3C4 /* DataFile.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
+				138CB7C220C7837F00F7FF7F /* DataFile 2.xcdatamodel */,
 				135ED51120BBFBB300CEA3C4 /* DataFile.xcdatamodel */,
 			);
 			currentVersion = 135ED51120BBFBB300CEA3C4 /* DataFile.xcdatamodel */;

@@ -18,10 +18,11 @@ NS_ASSUME_NONNULL_BEGIN
 @interface ObjectDto : BaseDto
 
 @property (nonatomic, strong) NSProgress *progress;
+@property (nonatomic, strong) NSString *groupName;
 
 @property (nonatomic, strong) NSMutableArray <DataDto*> *listData;
 
-- (instancetype)initObjectDtoWithName:(NSString *)name groupId:(NSInteger )gid;
+- (instancetype)initObjectDtoWithName:(NSString *)name groupId:(NSInteger )gid andStatus:(NSInteger)status;
 
 - (void)configProgress;
 

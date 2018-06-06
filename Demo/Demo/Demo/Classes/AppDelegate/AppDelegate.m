@@ -10,6 +10,8 @@
 #import "DataCore+CoreDataClass.h"
 #import "DataCore+CoreDataProperties.h"
 
+@import MagicalRecord;
+
 
 
 @interface AppDelegate ()
@@ -22,6 +24,14 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
+    
+    // Set up CoreData
+    NSURL *dic = [[[NSFileManager defaultManager] URLsForDirectory:NSDemoApplicationDirectory inDomains:NSUserDomainMask] lastObject];
+    NSURL *storeURL = [dic URLByAppendingPathComponent:@"DataFile.sqlite"];
+    NSLog(@"%@",storeURL);
+    
+    [MagicalRecord setupCoreDataStackWithStoreNamed:@"DataFile"];
+    [[NSManagedObjectContext MR_defaultContext] setMergePolicy:NSOverwriteMergePolicy];
     
     return YES;
 }
@@ -48,7 +58,7 @@
 
 
 - (void)applicationWillTerminate:(UIApplication *)application {
-   
+//   [MagicalRecord cleanUp];
 }
 
 

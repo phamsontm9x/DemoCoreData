@@ -1,9 +1,8 @@
 //
 //  DataCore+CoreDataProperties.m
-//  Demo
+//  
 //
-//  Created by ThanhSon on 5/30/18.
-//  Copyright © 2018 ThanhSon. All rights reserved.
+//  Created by ThanhSon on 6/5/18.
 //
 //
 
@@ -18,5 +17,8 @@
 @dynamic dataImage;
 @dynamic fileName;
 @dynamic groupId;
+@dynamic status;
+@dynamic cid;
+@dynamic downloadGroup;
 
 @end

@@ -70,7 +70,7 @@
 
 - (void)addEventDownload:(DataDto *)data {
     _dataTask = data;
-    [self.listDownload setObject:_dataTask forKey:_dataTask.cid];
+    [self.listDownload setObject:_dataTask forKey:[NSNumber numberWithInteger:_dataTask.cid]];
     [self addQueue:data];
 }
 

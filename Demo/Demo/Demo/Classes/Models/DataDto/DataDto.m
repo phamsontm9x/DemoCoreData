@@ -20,7 +20,7 @@ typedef NS_ENUM(NSInteger, StatusDownload) {
 
 @implementation DataDto
 
-- (instancetype)initDataDtoWith:(NSString *)url FileName:(NSString *)fileName cid:(NSNumber *)cid andGroupId:(NSInteger)groupId {
+- (instancetype)initDataDtoWith:(NSString *)url FileName:(NSString *)fileName cid:(NSInteger)cid GroupId:(NSInteger)groupId andStatus:(NSInteger)status {
     self = [super init];
     
     if (self) {
@@ -28,7 +28,7 @@ typedef NS_ENUM(NSInteger, StatusDownload) {
         self.url = url;
         self.fileName = fileName;
         self.cid = cid;
-        self.statusDownload = 0;
+        self.statusDownload = status;
         self.groupId = groupId;
         
         [self setFileExt];

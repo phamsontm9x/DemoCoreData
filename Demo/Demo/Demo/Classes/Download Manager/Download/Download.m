@@ -13,6 +13,7 @@
 #import "AppDelegate.h"
 #import "DataCore+CoreDataClass.h"
 #import "CoreDataManager.h"
+@import MagicalRecord;
 
 
 
@@ -207,17 +208,14 @@
 
 - (void)saveDataToCoreDataWithData:(NSData *)data FileName:(NSString*)strFileName andGroupId:(NSInteger)groupId {
     
-    NSManagedObjectContext *context = [[CoreDataManager sharedInstance] managedObjectContext];
-
-    DataCore *dataCore = [NSEntityDescription insertNewObjectForEntityForName:@"DataCore" inManagedObjectContext:context];
-    dataCore.dataImage = data;
-    dataCore.fileName = strFileName;
-    dataCore.groupId = groupId;
- 
-    NSError *error = nil;
-    if ([context save:&error] == NO) {
-        NSAssert(NO, @"Error saving context: %@\n%@", [error localizedDescription], [error userInfo]);
-    }
+    [MagicalRecord saveWithBlock:^(NSManagedObjectContext *context) {
+        DataCore *dataCore = [DataCore MR_findFirstByAttribute:@"fileName" withValue:strFileName inContext:[NSManagedObjectContext MR_defaultContext]];
+        dataCore.dataImage = data;
+        dataCore.status = _statusDownload;
+        dataCore.groupId = groupId;
+    } completion:^(BOOL contextDidSave, NSError *error) {
+//        [[NSManagedObjectContext MR_defaultContext] MR_saveToPersistentStoreAndWait];
+    }];
 
 }
 

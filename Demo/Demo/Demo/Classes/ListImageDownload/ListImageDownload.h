@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "ObjectDto.h"
+#import "GroupDataCore+CoreDataClass.h"
 
 @interface ListImageDownload : UICollectionViewController
 

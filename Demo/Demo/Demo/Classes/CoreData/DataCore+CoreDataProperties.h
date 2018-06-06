@@ -1,9 +1,8 @@
 //
 //  DataCore+CoreDataProperties.h
-//  Demo
+//  
 //
-//  Created by ThanhSon on 5/30/18.
-//  Copyright © 2018 ThanhSon. All rights reserved.
+//  Created by ThanhSon on 6/5/18.
 //
 //
 
@@ -19,6 +18,9 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nullable, nonatomic, retain) NSData *dataImage;
 @property (nullable, nonatomic, copy) NSString *fileName;
 @property (nonatomic) int16_t groupId;
+@property (nonatomic) int16_t status;
+@property (nonatomic) int16_t cid;
+@property (nullable, nonatomic, retain) GroupDataCore *downloadGroup;
 
 @end
 

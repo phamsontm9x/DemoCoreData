@@ -27,9 +27,14 @@
 
 - (void)initUIWithData:(DataDto*)data {
     _data = data;
-    NSProgress *downloadProgress = [[Download_Manager sharedDownManager] downloadProgressForhID:data.cid];
+    NSProgress *downloadProgress = [[Download_Manager sharedDownManager] downloadProgressForhID:[NSNumber numberWithInteger:_data.cid]];
     if (downloadProgress) {
         self.observedProgress = downloadProgress;
+    }
+    
+    if (_data.statusDownload == 3) {
+        self.observedProgress = [NSProgress progressWithTotalUnitCount:1];
+        self.observedProgress.completedUnitCount = 1;
     }
 }
 
