@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="13772" systemVersion="16G1314" minimumToolsVersion="Automatic" sourceLanguage="Objective-C" userDefinedModelVersionIdentifier="DataFile">
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="14135" systemVersion="17E202" minimumToolsVersion="Automatic" sourceLanguage="Objective-C" userDefinedModelVersionIdentifier="DataFile">
     <entity name="DataCore" representedClassName="DataCore" syncable="YES">
         <attribute name="cid" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="dataImage" optional="YES" attributeType="Binary" allowsExternalBinaryDataStorage="YES" syncable="YES"/>
@@ -13,9 +13,12 @@
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="status" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
         <relationship name="downloadDataCore" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="DataCore" inverseName="downloadGroup" inverseEntity="DataCore" syncable="YES"/>
+        <userInfo>
+            <entry key="key" value="value"/>
+        </userInfo>
     </entity>
     <elements>
-        <element name="DataCore" positionX="315" positionY="-18" width="128" height="133"/>
-        <element name="GroupDataCore" positionX="-63" positionY="9" width="128" height="103"/>
+        <element name="DataCore" positionX="315" positionY="-18" width="128" height="135"/>
+        <element name="GroupDataCore" positionX="-63" positionY="9" width="128" height="105"/>
     </elements>
 </model>

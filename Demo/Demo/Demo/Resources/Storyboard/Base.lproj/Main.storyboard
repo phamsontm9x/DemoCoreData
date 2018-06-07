@@ -322,6 +322,11 @@ Learn more about Account Migration</string>
                                     <action selector="pauseSelected:" destination="0eY-aX-QbY" id="ZtB-po-QT7"/>
                                 </connections>
                             </barButtonItem>
+                            <barButtonItem systemItem="refresh" id="qgy-GG-yPa">
+                                <connections>
+                                    <action selector="resetSelected:" destination="0eY-aX-QbY" id="iA4-ZH-CVM"/>
+                                </connections>
+                            </barButtonItem>
                         </rightBarButtonItems>
                     </navigationItem>
                     <connections>

@@ -198,9 +198,9 @@
     // CoreData
     
     [self completeWithError:nil];
-    [self saveDataToCoreDataWithData:data FileName:_fileName andGroupId:_groupId];
     _statusDownload = 3;
-    
+    [self saveDataToCoreDataWithData:data FileName:_fileName andGroupId:_groupId];
+
 }
 
 
@@ -214,7 +214,7 @@
         dataCore.status = _statusDownload;
         dataCore.groupId = groupId;
     } completion:^(BOOL contextDidSave, NSError *error) {
-//        [[NSManagedObjectContext MR_defaultContext] MR_saveToPersistentStoreAndWait];
+        [[NSManagedObjectContext MR_defaultContext] MR_saveToPersistentStoreAndWait];
     }];
 
 }

@@ -58,6 +58,14 @@
     return self;
 }
 
+- (void)reset {
+    self.queueDownloads = [[NSMutableArray alloc] init];
+    self.operationQueue = [[NSOperationQueue alloc] init];
+    self.operationQueue.maxConcurrentOperationCount = 2;
+    self.listDownload = [NSMutableDictionary new];
+    self.enqueueOperationQueue = dispatch_queue_create("Test", NULL);
+}
+
 - (void)pause {
     _isPause = YES;
     [self.operationQueue setSuspended:_isPause];

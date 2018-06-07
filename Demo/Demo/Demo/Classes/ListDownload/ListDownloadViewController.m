@@ -7,6 +7,8 @@
 //
 
 #import "ListDownloadViewController.h"
+@import MagicalRecord;
+
 #import "DataDto.h"
 #import "Download_Manager.h"
 #import "DownloadTableViewCell.h"
@@ -18,7 +20,6 @@
 #import "GroupDataCore+CoreDataClass.h"
 #import "DataCore+CoreDataClass.h"
 
-@import MagicalRecord;
 
 
 typedef NS_ENUM(NSInteger, StatusDownload) {
@@ -62,6 +63,7 @@ typedef NS_ENUM(NSInteger, StatusDownload) {
     _arrObjQueue = [[NSMutableArray alloc] init];
     _arrObjDownloading = [[NSMutableArray alloc] init];
     _arrObj = [[NSMutableArray alloc] init];
+    
 }
 
 - (void)loadData {
@@ -116,12 +118,11 @@ typedef NS_ENUM(NSInteger, StatusDownload) {
             NSString *strFileName = [NSString stringWithFormat:@"test%d",i*1000+j];
             if (![DataCore isHasDataCoreWithName:strFileName inContext:[NSManagedObjectContext MR_defaultContext]]) {
                 DataCore * dataCore = [DataCore MR_createEntity];
-                dataCore.cid = j;
+                dataCore.cid = i*1000+j;
                 dataCore.fileName = strFileName;
                 dataCore.status = StatusDefault;
                 dataCore.groupId = i;
                 [group addDownloadDataCoreObject:dataCore];
-                //[group insertObject:dataCore inDownloadDataCoreAtIndex:j];
             }
         }
     }
@@ -147,6 +148,19 @@ typedef NS_ENUM(NSInteger, StatusDownload) {
     _isStart = NO;
 }
 
+- (IBAction)resetSelected:(id)sender {
+    
+    [GroupDataCore MR_truncateAllInContext:[NSManagedObjectContext MR_defaultContext]];
+    [DataCore MR_truncateAllInContext:[NSManagedObjectContext MR_defaultContext]];
+    [[NSManagedObjectContext MR_defaultContext] MR_saveToPersistentStoreAndWait];
+    
+    [self initData];
+    [[Download_Manager sharedDownManager] reset];
+    [self createDataObjectCoreData];
+    [self loadDataFromCoreData];
+    [_tbvContent reloadData];
+}
+
 - (void)preDownLoad {
     
     for (int i = 0 ; i < _maxCurentDownLoad ; i ++ ) {
@@ -165,13 +179,22 @@ typedef NS_ENUM(NSInteger, StatusDownload) {
         ObjectDto *dto = _arrObj[i];
         if (dto.statusDownload == StatusDefault) {
             dto.statusDownload = StatusDownloadQueue;
+            [self updateObject:dto withStatus:StatusDownloadQueue];
             [_arrObjQueue addObject:dto];
         }
     }
     
     for (ObjectDto *dto in _arrObjDownloading) {
         for (DataDto *data in dto.listData) {
-            [[Download_Manager sharedDownManager] addEventDownload:data];
+            if (data.statusDownload != StatusDownloadfinish) {
+                [[Download_Manager sharedDownManager] addEventDownload:data];
+                [MagicalRecord saveWithBlock:^(NSManagedObjectContext *context) {
+                    DataCore *dataCore = [DataCore findDataCoreWithName:data.fileName inContext:[NSManagedObjectContext MR_defaultContext]];
+                    dataCore.status = StatusDownloadQueue;
+                } completion:^(BOOL contextDidSave, NSError *error) {
+                    [[NSManagedObjectContext MR_defaultContext] MR_saveToPersistentStoreAndWait];
+                }];
+            }
         }
     }
     

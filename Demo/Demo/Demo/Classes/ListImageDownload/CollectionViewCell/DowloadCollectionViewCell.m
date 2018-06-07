@@ -35,13 +35,13 @@
     if (_data.statusDownload == 3) {
         self.observedProgress = [NSProgress progressWithTotalUnitCount:1];
         self.observedProgress.completedUnitCount = 1;
-    }
+    } 
 }
 
 - (void)updateStatus:(NSInteger)status {
     switch (status) {
         case 0:
-            self.lblTitle.text = @"Image";
+            self.lblTitle.text = @"";
             break;
             
         case 1:
@@ -64,7 +64,9 @@
 }
 
 - (void)setImageWithData:(NSData*)dataImage {
-    
+    if (dataImage == nil && _data.downloadSession.statusDownload == 3) {
+        self.lblTitle.text = @"Reload";
+    }
     self.imgView.image = [UIImage imageWithData:dataImage];
 }
 

@@ -58,12 +58,6 @@ static NSString * const reuseIdentifier = @"Cell";
     [self.collectionView reloadData];
 }
 
-- (void)controllerDidChangeContent:(NSFetchedResultsController *)controller {
-    NSArray *arr = self.fetchResultsController.fetchedObjects;
-    _arrData = [[NSMutableArray alloc] initWithArray:arr];
-    [self.collectionView reloadData];
-}
-
 
 #pragma mark - UICollectionViewDataSource
 
@@ -81,12 +75,12 @@ static NSString * const reuseIdentifier = @"Cell";
     DowloadCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"DowloadCollectionViewCell" forIndexPath:indexPath];
    
     DataCore *dataCore = _arrData[indexPath.row];
-    [cell updateStatus:dataCore.status];
-    [cell setImageWithData:[dataCore dataImage]];
-
+    
     if (_objData.listData.count > indexPath.row) {
         [cell initUIWithData:_objData.listData[indexPath.row]];
     }
+    [cell updateStatus:dataCore.status];
+    [cell setImageWithData:[dataCore dataImage]];
 
     return cell;
 }
@@ -95,7 +89,19 @@ static NSString * const reuseIdentifier = @"Cell";
 #pragma mark <UICollectionViewDelegate>
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-    
+    DataCore *dataCore = _arrData[indexPath.row];
+    if (![dataCore dataImage]) {
+        
+    }
+}
+
+
+#pragma mark - NSFetchedResultsControllerDelegate
+
+- (void)controllerDidChangeContent:(NSFetchedResultsController *)controller {
+    NSArray *arr = self.fetchResultsController.fetchedObjects;
+    _arrData = [[NSMutableArray alloc] initWithArray:arr];
+    [self.collectionView reloadData];
 }
 
 

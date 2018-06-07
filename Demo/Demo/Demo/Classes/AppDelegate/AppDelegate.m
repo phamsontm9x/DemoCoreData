@@ -25,11 +25,12 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
     
-    // Set up CoreData
-    NSURL *dic = [[[NSFileManager defaultManager] URLsForDirectory:NSDemoApplicationDirectory inDomains:NSUserDomainMask] lastObject];
-    NSURL *storeURL = [dic URLByAppendingPathComponent:@"DataFile.sqlite"];
+    NSURL *dic = [[[NSFileManager defaultManager] URLsForDirectory:NSApplicationSupportDirectory inDomains:NSUserDomainMask] lastObject];
+    NSURL *storeURL = [dic URLByAppendingPathComponent:@"Demo/"];
     NSLog(@"%@",storeURL);
+    [[NSFileManager defaultManager] removeItemAtURL:storeURL error:nil];
     
+    // Set up CoreData    
     [MagicalRecord setupCoreDataStackWithStoreNamed:@"DataFile"];
     [[NSManagedObjectContext MR_defaultContext] setMergePolicy:NSOverwriteMergePolicy];
     

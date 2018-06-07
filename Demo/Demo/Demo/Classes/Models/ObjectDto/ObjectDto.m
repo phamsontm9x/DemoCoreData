@@ -40,6 +40,9 @@ typedef NS_ENUM(NSInteger, StatusDownload) {
         _progress = [NSProgress progressWithTotalUnitCount:_listData.count];
         for (DataDto *data in _listData) {
             [self.progress addChild:data.downloadSession.progress withPendingUnitCount:1];
+            if (data.statusDownload == StatusDownloadfinish) {
+                _progress.completedUnitCount ++;
+            }
         }
     } else {
         _progress = [NSProgress progressWithTotalUnitCount:1];
